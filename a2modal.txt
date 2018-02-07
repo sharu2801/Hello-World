@@ -1,0 +1,83 @@
+<html>
+<head> 
+<script src="jquery-1.4.2.js"></script>
+<script src="dygraph.js"></script>
+ <link rel="stylesheet" href="dygraph.css" />
+ <style>
+ #modalBackground, #modal {
+    display: none;
+    position: fixed;
+}
+
+#modalBackground {
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.25);
+    z-index: 1;
+}
+
+#modal {
+    width: 80%;
+    top: 15%;
+    left: 10%;
+    background: white;
+    z-index: 2;
+}
+ 
+ 
+ </style>
+ <script>
+   $(document).ready(function () {
+     
+      
+    $('#btn').click(function(){
+  $('#modalBackground, #modal').show();
+      var data_temp =  '[{"X":-100,"Est":345, "Ac":432},{"X":200,"Est":325, "Ac":412},{"X":300,"Est":315, "Ac":432},{"X":350,"Est":335, "Ac":476},{"X":400,"Est":395, "Ac":453},{"X":500,"Est":345, "Ac":432}]';
+      var JSONString = '[{"name":"Jonathan Suh","gender":"male"},{"name":"William Philbin","gender":"male"},{"name":"Allison McKinnery","gender":"female"}]';
+      var JSONObject1 = JSON.parse(data_temp);
+      var JSONObject = JSON.parse(JSONString);
+      console.log(JSONObject1);      // Dump all data of the Object in the console
+      alert(JSONObject1[0]["X"]);
+	  // A basic sinusoidal data series.
+      var data = [];
+      for (var i = 0; i < JSONObject1.length; i++) {
+        data.push([JSONObject1[i]["X"], JSONObject1[i]["Est"], JSONObject1[i]["AC"]]);
+      }
+
+      // Shift one portion out of line.
+      
+      var chart3 = new Dygraph(
+          document.getElementById("chartContainer2"),
+          data,
+          {
+            
+            title: 'Daily Temperatures in New York vs. San Francisco',
+            ylabel: 'Temperature (F)',
+            legend: 'always',
+          }
+      );
+});      
+   
+$('#modalBackground, #closeBtn').click(function(){
+  $('#modalBackground, #modal').hide();
+});
+
+   
+    }
+);
+</script>
+
+</head>
+
+</body>
+<div id="div_g" style="width:600px; height:300px;"></div>
+<p>When you zoom and pan, the region remains highlighted.</p>
+<div id="modalBackground"></div>
+<div id="modal">
+  <div id="chartContainer2" style="height: 360px; width: 100%;"></div>  
+  <button id="closeBtn">Close</button>
+</div>
+<button id="btn">Spline Chart</button>
+<div id="chartContainer1" style="height: 360px; width: 100%;"></div>
+</body>
+</html>
